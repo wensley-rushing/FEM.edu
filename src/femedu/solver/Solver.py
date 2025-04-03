@@ -258,9 +258,11 @@ class Solver():
                         #idx = node.lead.start + node.dofs[dof]
                         idx = node.getIdx4DOFs(dofs=[dof])[0]
 
-                        ubar = node.getDisp(dof, local=True)
+                        ubar  = node.getFixedDisp(dof, local=True)
 
+                        self.R -= Ksys[:, idx] * ubar
                         self.R[idx]    = ubar * 1.0e3
+
                         Ksys[:, idx]   = np.zeros(ndof)   # the range might need adjustment for constraints
                         Ksys[idx, :]   = np.zeros(ndof)   # the range might need adjustment for constraints
                         Ksys[idx, idx] = 1.0e3
